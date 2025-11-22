@@ -623,16 +623,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <i class="fa-brands fa-whatsapp"></i>
                         </div>
                         <h3 class="text-xl font-bold text-gray-800 mb-2">تأكيد الطلب</h3>
-                        <p class="text-sm text-gray-600">أدخل رقم الواتساب لتأكيد الحجز واستلام كود الخصم.</p>
+                        <p class="text-sm text-gray-600">أدخل بياناتك لتأكيد الحجز واستلام كود الخصم.</p>
                     </div>
                     
                     <div class="space-y-3">
-                        <label class="block text-sm font-medium text-gray-700">رقم الهاتف (واتساب)</label>
-                        <div class="flex gap-2">
-                            <input type="tel" id="phone-input" placeholder="01xxxxxxxxx" class="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-left" dir="ltr">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">الاسم بالكامل</label>
+                            <input type="text" id="input-name" placeholder="الاسم..." class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">رقم الهاتف (واتساب)</label>
+                            <div class="flex gap-2">
+                                <input type="tel" id="phone-input" placeholder="01xxxxxxxxx" class="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-left" dir="ltr">
+                            </div>
                         </div>
                         
-                        <div class="flex gap-3">
+                        <div class="flex gap-3 pt-2">
                              <button onclick="prevStep(3)" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-lg transition-colors">
                                 السابق
                             </button>
@@ -867,18 +873,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     verifyOtpBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري التأكيد...';
                     verifyOtpBtn.disabled = true;
 
-                    // Gather all data
+                    // Gather all data mapping EXACTLY to provided Headers
                     const formData = {
-                        rooms: document.getElementById('input-rooms').value || 'Not Provided',
-                        contents: document.getElementById('input-contents').value || 'Not Provided',
-                        floor_from: document.getElementById('input-floor-from').value || 'Not Provided',
-                        floor_to: document.getElementById('input-floor-to').value || 'Not Provided',
-                        area_from: document.getElementById('input-area-from').value || 'Not Provided',
-                        area_to: document.getElementById('input-area-to').value || 'Not Provided',
-                        moving_date: document.getElementById('input-date').value || 'Not Provided',
-                        phone: currentPhone,
-                        date_submitted: new Date().toLocaleString('en-EG'),
-                        status: 'Verified - 30% Offer Claimed'
+                        'Timestamp': new Date().toLocaleString('en-EG'),
+                        'Conversion Type': 'OTP_VERIFIED',
+                        'GCLID': '', // Optional
+                        'Name': document.getElementById('input-name').value || '',
+                        'Phone': currentPhone,
+                        'From': document.getElementById('input-area-from').value || '',
+                        'To': document.getElementById('input-area-to').value || '',
+                        'Rooms': document.getElementById('input-rooms').value || '',
+                        'Type': '', // Not used in UI
+                        'Floor From': document.getElementById('input-floor-from').value || '',
+                        'Floor To': document.getElementById('input-floor-to').value || '',
+                        'Elevator From': '', // Not used in UI
+                        'Elevator To': '', // Not used in UI
+                        'Details': `Contents: ${document.getElementById('input-contents').value} | Date: ${document.getElementById('input-date').value}`
                     };
 
                     // Send data to Google Sheet

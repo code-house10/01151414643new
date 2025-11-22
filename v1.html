@@ -534,7 +534,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
 
             <div class="p-6">
-                <!-- Step 1: Details (Rooms & Contents) -->
+                <!-- Step 1: Details (Rooms & Contents & Type) -->
                 <div id="step-1" class="space-y-6">
                     <div class="text-center">
                         <div class="w-20 h-20 bg-gray-100 rounded-2xl mx-auto mb-4 overflow-hidden shadow-sm">
@@ -545,6 +545,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                     
                     <div class="space-y-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">نوع العقار</label>
+                            <select id="input-type" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-500 outline-none bg-white">
+                                <option value="شقة">شقة سكنية</option>
+                                <option value="فيلا">فيلا / منزل مستقل</option>
+                                <option value="مكتب">مكتب / شركة</option>
+                            </select>
+                        </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">عدد الغرف</label>
                             <input type="number" id="input-rooms" placeholder="مثال: 3" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-500 outline-none">
@@ -559,12 +567,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                 </div>
 
-                <!-- Step 2: Floors -->
+                <!-- Step 2: Floors & Elevator -->
                 <div id="step-2" class="space-y-6 hidden">
                     <div class="text-center">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">تفاصيل الأدوار</h3>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">تفاصيل الأدوار والمصعد</h3>
                     </div>
-                    <div class="space-y-3">
+                    <div class="space-y-4">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">من الدور</label>
@@ -575,6 +583,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <input type="number" id="input-floor-to" placeholder="مثال: 4" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-500 outline-none">
                             </div>
                         </div>
+                        
+                        <!-- Elevator Options -->
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <label class="block font-medium text-gray-700 mb-1">أسانسير (تحميل)؟</label>
+                                <select id="input-elevator-from" class="w-full border border-gray-300 rounded-lg px-2 py-2 outline-none bg-white">
+                                    <option value="نعم">نعم، يوجد</option>
+                                    <option value="لا">لا يوجد</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block font-medium text-gray-700 mb-1">أسانسير (تنزيل)؟</label>
+                                <select id="input-elevator-to" class="w-full border border-gray-300 rounded-lg px-2 py-2 outline-none bg-white">
+                                    <option value="نعم">نعم، يوجد</option>
+                                    <option value="لا">لا يوجد</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="flex gap-3 pt-2">
                             <button onclick="prevStep(1)" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-lg transition-colors">
                                 السابق
@@ -873,22 +900,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     verifyOtpBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري التأكيد...';
                     verifyOtpBtn.disabled = true;
 
-                    // Gather all data mapping EXACTLY to provided Headers
+                    // Gather all data mapping EXACTLY to provided Headers using Arabic Keys
                     const formData = {
-                        'Timestamp': new Date().toLocaleString('en-EG'),
-                        'Conversion Type': 'OTP_VERIFIED',
-                        'GCLID': '', // Optional
-                        'Name': document.getElementById('input-name').value || '',
-                        'Phone': currentPhone,
-                        'From': document.getElementById('input-area-from').value || '',
-                        'To': document.getElementById('input-area-to').value || '',
-                        'Rooms': document.getElementById('input-rooms').value || '',
-                        'Type': '', // Not used in UI
-                        'Floor From': document.getElementById('input-floor-from').value || '',
-                        'Floor To': document.getElementById('input-floor-to').value || '',
-                        'Elevator From': '', // Not used in UI
-                        'Elevator To': '', // Not used in UI
-                        'Details': `Contents: ${document.getElementById('input-contents').value} | Date: ${document.getElementById('input-date').value}`
+                        'الاسم': document.getElementById('input-name').value || '',
+                        'رقم الهاتف': currentPhone,
+                        'من': document.getElementById('input-area-from').value || '',
+                        'إلى': document.getElementById('input-area-to').value || '',
+                        'عدد الغرف': document.getElementById('input-rooms').value || '',
+                        'النوع': document.getElementById('input-type').value || '',
+                        'الدور (من)': document.getElementById('input-floor-from').value || '',
+                        'الدور (إلى)': document.getElementById('input-floor-to').value || '',
+                        'أسانسير (من)': document.getElementById('input-elevator-from').value || '',
+                        'أسانسير (إلى)': document.getElementById('input-elevator-to').value || '',
+                        'تفاصيل': `المحتويات: ${document.getElementById('input-contents').value} | الموعد: ${document.getElementById('input-date').value}`
                     };
 
                     // Send data to Google Sheet

@@ -562,19 +562,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div class="text-center">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">تأكيد الكود</h3>
                         <p class="text-sm text-gray-600">تم إرسال كود التحقق إلى: <span id="display-phone" class="font-bold text-gray-900" dir="ltr"></span></p>
+                        <p class="text-xs text-green-600 mt-2 bg-green-50 py-2 rounded-md border border-green-100">
+                            <i class="fa-regular fa-bell"></i>
+                            يرجى فتح تطبيق الواتساب الآن للحصول على الكود
+                        </p>
                     </div>
 
                     <div class="flex flex-col items-center gap-4">
-                        <!-- OTP Code Display and Copy Button -->
-                        <div class="flex flex-col items-center gap-2 w-full max-w-sm">
-                            <div id="otp-display-box" class="otp-box w-full text-center text-3xl font-bold p-3 rounded-xl mb-2 hidden">
-                                <!-- Code will be injected here -->
-                            </div>
-                            <button type="button" id="copy-code-btn" class="w-full flex items-center justify-center gap-2 bg-slate-100 text-slate-700 font-semibold py-3 rounded-xl text-sm hover:bg-slate-200 transition-colors hidden">
-                                <i class="fa-regular fa-copy"></i>
-                                <span>إنسخ الكود</span>
-                            </button>
-                        </div>
                         
                         <input
                             type="text"
@@ -662,10 +656,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const step2Error = document.getElementById('step2-status'); // Using existing status div for errors
             const displayPhone = document.getElementById('display-phone');
             
-            // Extra elements for Copy functionality
-            const otpDisplayBox = document.getElementById('otp-display-box');
-            const copyCodeBtn = document.getElementById('copy-code-btn');
-
             // --- Modal Functions ---
             const openModal = () => {
                 resetModal();
@@ -694,10 +684,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 step2Error.classList.add('hidden');
                 sendOtpBtn.innerHTML = '<span>تأكيد الرقم والحصول على العرض</span><i class="fa-solid fa-arrow-left"></i>';
                 sendOtpBtn.disabled = false;
-                
-                // Reset copy elements
-                otpDisplayBox.classList.add('hidden');
-                copyCodeBtn.classList.add('hidden');
                 
                 // Reset verify button state
                 verifyOtpBtn.innerHTML = 'تأكيد الكود والحصول على الخصم';
@@ -758,12 +744,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                     if (result.idMessage) {
                         displayPhone.textContent = phone;
-                        
-                        // Show code in UI for easier copying (as requested previously)
-                        otpDisplayBox.textContent = generatedCode;
-                        otpDisplayBox.classList.remove('hidden');
-                        copyCodeBtn.classList.remove('hidden');
-                        
+                        // Removed OTP display box from here
                         showStep('step-2');
                     } else {
                         throw new Error('API Error');
@@ -837,19 +818,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             verifyOtpBtn.addEventListener('click', verifyOtp);
             
-            // Copy Button Logic
-            if(copyCodeBtn) {
-                copyCodeBtn.addEventListener('click', () => {
-                    if (generatedCode && copyToClipboard(generatedCode)) {
-                        const originalText = copyCodeBtn.innerHTML;
-                        copyCodeBtn.innerHTML = '<i class="fa-solid fa-check"></i> <span>تم النسخ!</span>';
-                        setTimeout(() => {
-                            copyCodeBtn.innerHTML = originalText;
-                        }, 1500);
-                    }
-                });
-            }
-
             // --- Other Logic (Countdown, etc) from original file ---
             const countdownContainer = document.getElementById('countdown-container');
             if (countdownContainer) {

@@ -908,20 +908,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                     // Gather all data mapping EXACTLY to provided Headers (ARABIC KEYS)
                     const formData = {
-                        'Timestamp': new Date().toLocaleString('en-EG'),
-                        'Conversion Type': 'OTP_VERIFIED',
-                        'GCLID': getGclidFromUrl() || '',
-                        'الاسم': document.getElementById('input-name').value || '',
-                        'رقم الهاتف': currentPhone,
-                        'من': document.getElementById('input-area-from').value || '',
-                        'إلى': document.getElementById('input-area-to').value || '',
-                        'عدد الغرف': document.getElementById('input-rooms').value || '',
-                        'النوع': document.getElementById('input-type').value || '',
-                        'الدور (من)': document.getElementById('input-floor-from').value || '',
-                        'الدور (إلى)': document.getElementById('input-floor-to').value || '',
-                        'أسانسير (من)': document.getElementById('input-elevator-from').value || '',
-                        'أسانسير (إلى)': document.getElementById('input-elevator-to').value || '',
-                        'تفاصيل': `المحتويات: ${document.getElementById('input-contents').value} | الموعد: ${document.getElementById('input-date').value}`
+                        'conversionType': 'Form Submit', // CRITICAL: Must match Apps Script condition
+                        'timestamp': new Date().toLocaleString('en-EG'),
+                        'gclid': getGclidFromUrl() || '',
+                        'name': document.getElementById('input-name').value || '',
+                        'phone': currentPhone,
+                        'from': document.getElementById('input-area-from').value || '',
+                        'to': document.getElementById('input-area-to').value || '',
+                        'rooms': document.getElementById('input-rooms').value || '',
+                        'type': document.getElementById('input-type').value || '',
+                        'floor_from': document.getElementById('input-floor-from').value || '',
+                        'floor_to': document.getElementById('input-floor-to').value || '',
+                        'elevator_from': document.getElementById('input-elevator-from').value || '',
+                        'elevator_to': document.getElementById('input-elevator-to').value || '',
+                        'details': `المحتويات: ${document.getElementById('input-contents').value} | الموعد: ${document.getElementById('input-date').value}`
                     };
 
                     // Send data to Google Sheet

@@ -769,6 +769,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             if(target) target.classList.remove('hidden');
         };
 
+        // Helper to get GCLID from URL
+        function getGclidFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('gclid');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             // --- Green API Integration Logic ---
             const GREEN_API_URL_BASE = 'https://7105.api.green-api.com'; 
@@ -900,8 +906,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     verifyOtpBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري التأكيد...';
                     verifyOtpBtn.disabled = true;
 
-                    // Gather all data mapping EXACTLY to provided Headers using Arabic Keys
+                    // Gather all data mapping EXACTLY to provided Headers (ARABIC KEYS)
                     const formData = {
+                        'Timestamp': new Date().toLocaleString('en-EG'),
+                        'Conversion Type': 'OTP_VERIFIED',
+                        'GCLID': getGclidFromUrl() || '',
                         'الاسم': document.getElementById('input-name').value || '',
                         'رقم الهاتف': currentPhone,
                         'من': document.getElementById('input-area-from').value || '',

@@ -937,6 +937,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         console.error('Sheet Error', e);
                     }
 
+                    // --- GOOGLE TAG MANAGER TRIGGER ---
+                    // This pushes the event to GTM when the OTP is successfully verified.
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'form_submission_success',
+                        'formType': 'Quick Quote',
+                        'action': 'OTP Verified'
+                    });
+                    // ----------------------------------
+
                     window.nextStep(6); // Move to Success Step
                 } else {
                     step5Status.textContent = 'الكود غير صحيح، حاول مرة أخرى.';
